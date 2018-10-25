@@ -21,7 +21,7 @@ defmodule WebSockex.ConnError do
 end
 
 defmodule WebSockex.RequestError do
-  defexception [:code, :message]
+  defexception [:version, :code, :message, :headers, :body]
 
   def message(%__MODULE__{code: code, message: message}) do
     "Didn't get a proper response from the server. The response was: #{inspect(code)} #{

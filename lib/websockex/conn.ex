@@ -297,8 +297,17 @@ defmodule WebSockex.Conn do
       {:ok, {:http_response, _version, 101, _message}, rest} ->
         decode_headers(rest)
 
-      {:ok, {:http_response, _, code, message}, _} ->
-        {:error, %WebSockex.RequestError{code: code, message: message}}
+      {:ok, {:http_response, version, code, message}, rest} ->
+        {:ok, headers, body} = decode_headers(rest)
+
+        {:error,
+         %WebSockex.RequestError{
+           version: version,
+           code: code,
+           message: message,
+           headers: headers,
+           body: body
+         }}
 
       {:error, error} ->
         {:error, error}
